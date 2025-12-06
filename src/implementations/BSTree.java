@@ -21,6 +21,11 @@ public class BSTree<E extends Comparable<? super E>> implements BSTreeADT<E>
 		this.root = null;
 		this.size = 0;
 	}
+	
+    public BSTree(E element) {
+        this.root = new BSTreeNode<>(element);
+        this.size = 1;
+    }
 
 	@Override
 	public BSTreeNode<E> getRoot() throws NullPointerException {
@@ -162,7 +167,6 @@ public class BSTree<E extends Comparable<? super E>> implements BSTreeADT<E>
 	
 	private BSTreeNode<E> removeMaxRecursive(BSTreeNode<E> parent, BSTreeNode<E> current) {
         if (current.getRight() == null) {
-            // Found max, bypass it
             parent.setRight(current.getLeft());
             size--;
             return current;
