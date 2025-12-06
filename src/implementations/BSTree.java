@@ -123,6 +123,116 @@ public class BSTree<E extends Comparable<? super E>> implements BSTreeADT<E>
 		}
 		
 	}
+	
+	@Override
+	public BSTreeNode<E> removeMin() {
+		if (root == null) return null;
+		
+		if(root.getLeft() == null) {
+			BSTreeNode<E> min = root;
+			root = root.getRight();
+			size++;
+			return min;
+		}
+		return removeMinRecursive(null, root);
+	}
+	
+	private BSTreeNode<E> removeMinRecursive(BSTreeNode<E> parent, BSTreeNode<E> current) {
+		if (current.getLeft() == null) {
+			parent.setLeft(current.getRight());
+			size--;
+			
+			return current;
+		}
+		return removeMinRecursive(current, current.getLeft());
+	}
+
+	@Override
+	public BSTreeNode<E> removeMax() {
+		if(root == null) return null;
+		
+		if(root.getRight() == null) {
+			BSTreeNode<E> max = root;
+			root = root.getLeft();
+			size--;
+		}
+		
+		return removeMaxRecursive(null, root);
+	}
+	
+	private BSTreeNode<E> removeMaxRecursive(BSTreeNode<E> parent, BSTreeNode<E> current) {
+        if (current.getRight() == null) {
+            // Found max, bypass it
+            parent.setRight(current.getLeft());
+            size--;
+            return current;
+        }
+        return removeMaxRecursive(current, current.getRight());
+    }
+
+
+    @Override
+    public Iterator<E> inorderIterator() {
+        ArrayList<E> list = new ArrayList<>();
+        inorderRecursive(root, list);
+        return new BSTIterator(list);
+    }
+
+    private void inorderRecursive(BSTreeNode<E> node, ArrayList<E> list) {
+        if (node == null) return;
+        inorderRecursive(node.getLeft(), list);
+        list.add(node.getElement());
+        inorderRecursive(node.getRight(), list);
+    }
+
+    @Override
+    public Iterator<E> preorderIterator() {
+        ArrayList<E> list = new ArrayList<>();
+        preorderRecursive(root, list);
+        return new BSTIterator(list);
+    }
+
+    private void preorderRecursive(BSTreeNode<E> node, ArrayList<E> list) {
+        if (node == null) return;
+        list.add(node.getElement());
+        preorderRecursive(node.getLeft(), list);
+        preorderRecursive(node.getRight(), list);
+    }
+
+    @Override
+    public Iterator<E> postorderIterator() {
+        ArrayList<E> list = new ArrayList<>();
+        postorderRecursive(root, list);
+        return new BSTIterator(list);
+    }
+
+    private void postorderRecursive(BSTreeNode<E> node, ArrayList<E> list) {
+        if (node == null) return;
+        postorderRecursive(node.getLeft(), list);
+        postorderRecursive(node.getRight(), list);
+        list.add(node.getElement());
+    }
+
+    private class BSTIterator implements Iterator<E> {
+        private ArrayList<E> list;
+        private int position;
+
+        public BSTIterator(ArrayList<E> list) {
+            this.list = list;
+            this.position = 0;
+        }
+
+        @Override
+        public boolean hasNext() {
+            return position < list.size();
+        }
+
+        @Override
+        public E next() throws NoSuchElementException {
+            if (!hasNext()) throw new NoSuchElementException();
+            return list.get(position++);
+        }
+    }
 
 
 }
