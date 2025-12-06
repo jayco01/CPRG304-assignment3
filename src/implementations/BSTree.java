@@ -160,6 +160,7 @@ public class BSTree<E extends Comparable<? super E>> implements BSTreeADT<E>
 			BSTreeNode<E> max = root;
 			root = root.getLeft();
 			size--;
+			return max;
 		}
 		
 		return removeMaxRecursive(null, root);
