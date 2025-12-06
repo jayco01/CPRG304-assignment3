@@ -67,14 +67,13 @@ public class WordTracker {
         return wordTree;
     }
 
-     
     /*
      * This is the App's entry point.
      * 
      * */
     public static void main(String[] args) {
         if (args.length < 1) {
-            System.out.println("Usage: java -jar WordTracker.jar....");
+            System.out.println("use java -jar WordTracker.jar....");
             return;
         }
 
@@ -93,5 +92,6 @@ public class WordTracker {
         // TODO: Step 7 - Handle command line options (-pf/-pl/-po) and generate report
         
         System.out.println("Tree constructed from " + inputFileName + " with size: " + tracker.getWordTree().size());
-    }
+    }    
+
 }
