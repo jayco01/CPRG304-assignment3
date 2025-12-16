@@ -4,6 +4,9 @@ import implementations.BSTree;
 import implementations.BSTreeNode;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.util.Scanner;
 
 
@@ -87,11 +90,31 @@ public class WordTracker {
         tracker.processFile(inputFileName);
         // -----------------------------
         
-        // TODO: Step 5 - Store the tree in repository.ser
+        // Step 5 - store tree in repository.ser
+        tracker.saveRepository();
         
+        System.out.println(
+        		"Tree constructed from " + inputFileName 
+        		+ "with size:" + tracker.getWordTree().size());
+  
         // TODO: Step 7 - Handle command line options (-pf/-pl/-po) and generate report
         
-        System.out.println("Tree constructed from " + inputFileName + " with size: " + tracker.getWordTree().size());
-    }    
+    } 
+    
+    // step 5 - write tree
+    private void saveRepository() {
+    	try (ObjectOutputStream oos = 
+    			new ObjectOutputStream(new FileOutputStream("repository.ser"))) {
+    		
+    		oos.writeObject(wordTree);
+    		
+    		System.out.println("repository.ser has been successfully updated!");
+    		
+    	} catch (IOException e) {
+    		System.err.println("Error: failed to save repository.ser");
+    		e.printStackTrace();
+    	}
+    }
+      
 
 }
